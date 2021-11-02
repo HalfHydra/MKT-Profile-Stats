@@ -13,9 +13,9 @@
       <link rel="preload" href="./Images/UI/Loading.png" as="image"> 
       <div> 
    </head>
-   <body class="main" style="height: 100%;overflow: overlay;" id="bigbody">
+   <body class="main" style="height: 100%;overflow: overlay;background-image: url('./Images/UI/Background/gradient.png');background-size: contain;background-attachment: fixed;" id="bigbody">
       <img id="loadingimg" src="./Images/UI/Loading.png" style="width:96px;height:96px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 1000;">
-      <div style="width:100%;background-image: url('./Images/UI/Background/BlackPattern.png');background-size: 194px auto;padding:10px;margin-top: -8px;margin-left: -12px;position: sticky;
+      <div style="width:calc(100% - 10px);background-image: url('./Images/UI/Background/BlackPattern.png');background-size: 194px auto;padding:10px;margin-top: -8px;margin-left: -12px;position: sticky;
     top: 0;z-index:9999">
       <div class="headerContainer">
          <div class="headerDiv" onclick="switchTab(0)">
@@ -44,12 +44,13 @@
          </div>
       </div>
    </div>
-      <div id="content" class="stripedbg" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;*/border: 5px solid #b5ceff;">
+      <div id="content" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;*/border: 5px solid #b5ceff;">
          <div id="stats" style="height: auto;">
             <p class="landingpagetxt" style="text-align: center;margin-bottom: 100px">This section is a WIP and will be a new, and more visual, introduction + guide.</p>
          </div>
          <div id="drivers" style="height: auto;display:none;">
          	<div class="stripedbg"  style="position: sticky;top: 75px;z-index: 30/*;background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png');background-size: 394px auto;*/"> 
+        </div>
         </div>
          <div id="karts" style="height: auto;display:none;">
          </div>
