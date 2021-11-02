@@ -124,10 +124,6 @@ function updateLocalSaveData(){
     localStorage.setItem("MKTVSaveData",JSON.stringify(savedata, null, 2));
 }
 
-function updateLocalSettingData(){
-    localStorage.setItem("MKTVSettingData",JSON.stringify(settingsavedata, null, 2));
-}
-
 function deleteLocalSaveData(){
     localStorage.removeItem("MKTVSaveData");
     localStorage.removeItem("MKTVSettingData");
@@ -180,5 +176,28 @@ function downloadcoursejson(mode){
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);
+    }
+}
+
+function switchTab(tab){
+    switch(tab){
+        case 0:
+            document.getElementById('').style.display = block;
+            break;
+        case 1:
+            document.getElementById('').style.display = block;
+            break;
+        case 2:
+            document.getElementById('').style.display = block;
+            break;
+        case 3:
+            document.getElementById('').style.display = block;
+            break;
+        case 4:
+            document.getElementById('').style.display = block;
+            break;
+        case 5:
+            document.getElementById('').style.display = block;
+            break;
     }
 }
