@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
    <head>
+         <link rel="stylesheet" href="./Style/reset.css">
    		<link rel="stylesheet" href="./Style/generic.css">
          <link rel="stylesheet" href="./Style/header.css">
+         <link rel="stylesheet" href="./Style/lists.css">
       <style>
          @font-face {font-family: tour;src: url('./Font/nintendoP_NTLG-NR-DB_003.ttf');}
          @font-face {font-family: 'headername';src: url('./Font/nintendoP_NTLG-NR-UB_003.otf') format('opentype');font-display: swap;font-style: normal;font-weight: bold;}
@@ -36,58 +38,31 @@
             <img src="./Images/UI/Header/Badge.png" class="headerImg">
             <p id="text_mode4" class='whiteoutline' style="margin-top: -30px;margin-left: 5px;font-family: headername2;font-size: 15px;text-align: center;display: inline-block;vertical-align: middle;"> Badge List </p>
          </div>
-         <div class="headerDiv" onclick="switchTab(6)">
+         <div class="headerDiv" onclick="switchTab(5)">
             <img src="./Images/UI/Header/Inventory.png" class="headerImg">
             <p id="text_mode6" class='whiteoutline' style="margin-top: -30px;margin-left: 10px;font-family: headername2;font-size: 15px;text-align: center;display: inline-block;vertical-align: middle;"> Inventory </p>
          </div>
-         <!--<div class="cupbtn" style="width: 200px;height: 52px;display: inline-block;cursor: pointer;" onclick="changemode(7)">
-            <img src="./Images/UI/Icon/InfoLap01.png" style="width: 52px;height: 52px;">
-            <p id="text_mode7" class='whiteoutline' style="margin-top: -30px;margin-left: 5px;font-family: headername2;font-size: 15px;text-align: center;display: inline-block;vertical-align: middle;"> Tour Summary </p>
-         </div>-->
-         <!-- <div class="headerDiv" style="width: 172px;height: 52px;display: inline-block;cursor: pointer;" onclick="switchTab(7)">
-            <img src="./Images/UI/cupranked.png" class="headerImg">
-            <p id="text_mode7" class='whiteoutline' style="margin-top: -30px;margin-left: 5px;font-family: headername2;font-size: 15px;text-align: center;display: inline-block;vertical-align: middle;"> Cup Select </p>
-         </div>
-         <div class="headerDiv" style="width: 135px;height: 52px;display: inline-block;cursor: pointer;" onclick="switchTab(5)">
-            <img src="./Images/UI/Icon/Setting.png" class="headerImg">
-            <p id="text_mode5" class='whiteoutline' style="margin-top: -30px;margin-left: 5px;font-family: headername2;font-size: 15px;text-align: center;display: inline-block;vertical-align: middle;"> Settings </p>
-         </div> -->
       </div>
    </div>
       <div id="content" class="stripedbg" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;*/border: 5px solid #b5ceff;">
-         <div id="intro" style="height: auto;">
-            <!--<h3 class="blackoutline"style="font-family: tour;font-size: 36px;text-align: center;">Landing Page</h3>-->
-
-            <!--<div style="width:100%; height: 400px;"> 
-               <p class="landingpagetxt" style="margin-left: 50px;">Data</p>
-            </div>-->
+         <div id="stats" style="height: auto;">
             <p class="landingpagetxt" style="text-align: center;margin-bottom: 100px">This section is a WIP and will be a new, and more visual, introduction + guide.</p>
          </div>
-         <div id="data" style="height: auto;display:none;">
+         <div id="drivers" style="height: auto;display:none;">
          	<div class="stripedbg"  style="position: sticky;top: 75px;z-index: 30/*;background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png');background-size: 394px auto;*/"> 
         </div>
-        <div id="driversdata" style="width: auto;max-width: 1160px;margin: 0 auto;"> 
-            </div>
-            <div id="kartsdata" style="width: auto;max-width: 1160px;margin: 0 auto;"> 
-            </div>
-            <div id="glidersdata" style="width: auto;max-width: 1160px;margin: 0 auto;"> 
-            </div>
+         <div id="karts" style="height: auto;display:none;">
          </div>
-         <div id="inventory" style="height: auto;display:none;">
+         <div id="gliders" style="height: auto;display:none;">
          </div>
-         <div id="courses" style="height: auto;display:none;">
+         <div id="badges" style="height: auto;display:none;">
          </div>
-         <div id="bonuspoints" style="height: auto;display:none;">
-         </div>
-         <div id="ranked" style="display: none;">
-         </div>
-         <div id="tour" style="height:auto;display:none;">
-         </div>
-         <div id="settings" style="height:auto;display:none;">
+         <div id="items" style="display: none;">
          </div>
       </div>
 
       <script type="text/javascript" src="./Script/global.js"></script>
+      <script type="text/javascript" src="./Script/driverlist.js"></script>
       <script type = "text/javascript" 
          src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
       </script>
@@ -129,45 +104,13 @@
          generateArrays();
          readTextFile("https://halfhydra.github.io/MarioKartTourValues/Data/course_names.json", 2);
          readTextFile("https://halfhydra.github.io/MarioKartTourValues/Data/course_image.json", 3);
-         convertToUsable();
 
-         if(localStorage.getItem("MKTVSaveData") != null){
-        savedata = JSON.parse(localStorage.getItem("MKTVSaveData"));
-        document.getElementById('json').innerHTML = JSON.stringify(savedata, null, 2);
-        makeCourseList();
-        courseListMade = true;
-        calcMissingValues();
-        isDataEntered = true;
-
-        let savedrivers = [];
-        savedrivers = Object.keys(savedata.Items.Drivers);
-        let savedriverslvl = [];
-        savedriverslvl = Object.values(savedata.Items.Drivers);
-        savedrivers.forEach((t,i)=>{
-            changeLevel(t, parseInt(savedriverslvl[i]), 1);
-        }
-        );
-
-        let savekarts = [];
-        savekarts = Object.keys(savedata.Items.Karts);
-        let savekartslvl = [];
-        savekartslvl = Object.values(savedata.Items.Karts);
-        savekarts.forEach((t,i)=>{
-            changeLevel(t, parseInt(savekartslvl[i]), 2);
-        }
-        );
-
-        let savegliders = [];
-        savegliders = Object.keys(savedata.Items.Gliders);
-        let savegliderslvl = [];
-        savegliderslvl = Object.values(savedata.Items.Gliders);
-        savegliders.forEach((t,i)=>{
-            changeLevel(t, parseInt(savegliderslvl[i]), 3);
-        }
-        );
-
-        resettingCourses = true;
+      if(localStorage.getItem("MKTS_Data") != null){
+        savedata = JSON.parse(localStorage.getItem("MKTS_Data"));
+        generateDriverList();
+        //document.getElementById('json').innerHTML = JSON.stringify(savedata, null, 2);
       }
+
       if(localStorage.getItem("MKTVSettingData") != null){
          //settingsavedata = JSON.parse(localStorage.getItem("MKTVSettingData"));
       } 
@@ -187,19 +130,6 @@
 
 $(document).ready(function() {
 
-/*$(document).on('click', '.topimg', function () {
-    $(".target").effect( "highlight", {color:"#669966"}, 1000 );
-    console.log('targetted');
-});
-});*/
-/*$(".topimg").click(function(){
-   $(".ckgpanel").effect( "highlight", {color:"#669966"}, 1000 );
-   console.log('targetted');
-});
-$(document).click(function(){
-  var helement = document.elementFromPoint(event.clientX, event.clientY).target;
-  helement.effect( "highlight", {color:"#669966"}, 1000 );
-})*/
 });
 $(document).on('click', '.ckgpanel', function () {
     var element = this;

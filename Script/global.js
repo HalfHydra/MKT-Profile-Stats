@@ -182,22 +182,32 @@ function downloadcoursejson(mode){
 function switchTab(tab){
     switch(tab){
         case 0:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('stats');
             break;
         case 1:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('drivers');
             break;
         case 2:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('karts');
             break;
         case 3:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('gliders');
             break;
         case 4:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('badges');
             break;
         case 5:
-            document.getElementById('').style.display = block;
+            hideAllTabsButOne('items');
             break;
     }
+}
+
+function hideAllTabsButOne(tab){
+    document.getElementById('stats').style.display = "none";
+    document.getElementById('drivers').style.display = "none";
+    document.getElementById('karts').style.display = "none";
+    document.getElementById('gliders').style.display = "none";
+    document.getElementById('badges').style.display = "none";
+    document.getElementById('items').style.display = "none";
+    document.getElementById(tab).style.display = "block";
 }
