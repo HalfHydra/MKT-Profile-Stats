@@ -46,7 +46,7 @@
    </div>
       <div id="content" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;*/border: 5px solid #b5ceff;">
          <div id="stats" style="height: auto;">
-            <p class="landingpagetxt" style="text-align: center;margin-bottom: 100px">This section is a WIP and will be a new, and more visual, introduction + guide.</p>
+            <p class="landingpagetxt" style="text-align: center;margin-bottom: 100px">This is a work in progress. Only the Driver List, Kart List, and Glider List work for now.</p>
          </div>
          <div id="drivers" style="height: auto;display:none;">
          	<div class="stripedbg"  style="position: sticky;top: 75px;z-index: 30/*;background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png');background-size: 394px auto;*/"> 
@@ -64,6 +64,8 @@
 
       <script type="text/javascript" src="./Script/global.js"></script>
       <script type="text/javascript" src="./Script/driverlist.js"></script>
+      <script type="text/javascript" src="./Script/kartlist.js"></script>
+      <script type="text/javascript" src="./Script/gliderlist.js"></script>
       <script type = "text/javascript" 
          src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
       </script>
@@ -109,6 +111,8 @@
       if(localStorage.getItem("MKTS_Data") != null){
         savedata = JSON.parse(localStorage.getItem("MKTS_Data"));
         generateDriverList();
+        generateKartList();
+        generateGliderList();
         //document.getElementById('json').innerHTML = JSON.stringify(savedata, null, 2);
       }
 

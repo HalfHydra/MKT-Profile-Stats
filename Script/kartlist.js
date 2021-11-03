@@ -1,26 +1,26 @@
-function generateDriverList(){
+function generateKartList(){
 
-    let output = document.getElementById('drivers');
+    let output = document.getElementById('karts');
 
-    Object.keys(savedata.Drivers).forEach((t,i)=>{
+    Object.keys(savedata.Karts).forEach((t,i)=>{
         let driverDiv = document.createElement('div');
-        driverDiv.id = `driver_${t}`;
+        driverDiv.id = `kart_${t}`;
         driverDiv.className = "driverDiv";
         output.appendChild(driverDiv);
 
         //generateFaceEntry
         let faceEntry = document.createElement('img');
         faceEntry.className = "faceEntry";
-        faceEntry.src = `https://halfhydra.github.io/MarioKartTourValues/Images/FaceEntry/${values[savedata.Drivers[t].id].nameInternal}FaceEntry.png`;
-        switch(values[savedata.Drivers[t].id].rarityId){
+        faceEntry.src = `https://halfhydra.github.io/MarioKartTourValues/Images/ItemIcon/${savedata.Karts[t].id}.png`;
+        switch(values[savedata.Karts[t].id].rarityId){
             case 0:
-                faceEntry.style.backgroundImage = `url('../Images/UI/Background/dnormal.png')`
+                faceEntry.style.backgroundImage = `url('../Images/UI/Background/kgnormal.png')`
                 break;
             case 1:
-                faceEntry.style.backgroundImage = `url('../Images/UI/Background/drare.png')`
+                faceEntry.style.backgroundImage = `url('../Images/UI/Background/kgrare.png')`
                 break;
             case 2:
-                faceEntry.style.backgroundImage = `url('../Images/UI/Background/dhighend.png')`
+                faceEntry.style.backgroundImage = `url('../Images/UI/Background/kghighend.png')`
                 break;
         }
         driverDiv.appendChild(faceEntry);
@@ -32,30 +32,30 @@ function generateDriverList(){
         //generateName
         let driverName = document.createElement('p');
         driverName.className = "driverName";
-        driverName.innerHTML = `${values[savedata.Drivers[t].id].nameEng}`;
+        driverName.innerHTML = `${values[savedata.Karts[t].id].nameEng}`;
         driverTextDiv.appendChild(driverName);
 
         //generateDateReceived
         let driverReceived = document.createElement('p');
         driverReceived.className = "driverReceived";
-        console.log(savedata.Drivers[t].received_epoch);
-        driverReceived.innerHTML = `Received: ${new Date(savedata.Drivers[t].received_epoch * 1000).toLocaleString()}`;
+        console.log(savedata.Karts[t].received_epoch);
+        driverReceived.innerHTML = `Received: ${new Date(savedata.Karts[t].received_epoch * 1000).toLocaleString()}`;
         driverTextDiv.appendChild(driverReceived);
 
         //boxPoints
-        driverDiv.appendChild(generatePointsBox(0, savedata.Drivers[t].basepoints, savedata.Drivers[t].basepointsprogress, savedata.Drivers[t].pointCapLevel, values[savedata.Drivers[t].id].rarityId,t));
+        driverDiv.appendChild(generatePointsBox(0, savedata.Karts[t].basepoints, savedata.Karts[t].basepointsprogress, savedata.Karts[t].pointCapLevel, values[savedata.Karts[t].id].rarityId,t));
 
         //boxLevel
-        driverDiv.appendChild(generateLevelBox(0,savedata.Drivers[t].level,0,t));
+        driverDiv.appendChild(generateLevelBox(0,savedata.Karts[t].level,0,t));
 
         //boxCap
-        driverDiv.appendChild(generateCapLevel(0,values[savedata.Drivers[t].id].rarityId,savedata.Drivers[t].pointCapLevel));
+        driverDiv.appendChild(generateCapLevel(0,values[savedata.Karts[t].id].rarityId,savedata.Karts[t].pointCapLevel));
     })
 
 function generatePointsBox(itemType, points, progress, capLevel, rarity, index){
     let boxPoints = document.createElement('div')
     boxPoints.className = "boxPoints";
-    if(points == 1400 && rarity == 2 || points == 975 && rarity == 1 || points == 760 && rarity == 0){
+    if(points == 700 && rarity == 2 || points == 450 && rarity == 1 || points == 280 && rarity == 0){
         boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverMax.png)";
     } else {
         boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverProgress.png)";
@@ -63,35 +63,35 @@ function generatePointsBox(itemType, points, progress, capLevel, rarity, index){
 
     switch(rarity){
         case 0:
-            if(points == 600 && capLevel < 1){
+            if(points == 300 && capLevel < 1){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 648 && capLevel < 2){
+            if(points == 324 && capLevel < 2){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 704 && capLevel < 3){
+            if(points == 352 && capLevel < 3){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
             break;
         case 1:
-            if(points == 675 && capLevel < 1){
+            if(points == 330 && capLevel < 1){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 765 && capLevel < 2){
+            if(points == 366 && capLevel < 2){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 870 && capLevel < 3){
+            if(points == 408 && capLevel < 3){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
             break;
         case 2:
-            if(points == 800 && capLevel < 1){
+            if(points == 400 && capLevel < 1){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 980 && capLevel < 2){
+            if(points == 490 && capLevel < 2){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
-            if(points == 1190 && capLevel < 3){
+            if(points == 595 && capLevel < 3){
                 boxPoints.style.backgroundImage = "url(./Images/UI/Lists/DriverLocked.png)";
             }
             break;
@@ -116,7 +116,7 @@ function generatePointsBox(itemType, points, progress, capLevel, rarity, index){
     });
     boxPoints.appendChild(pointsCount);
 
-    let converted = calcPoints(savedata.Drivers[`${index}`].total_xp, rarity, 0);
+    let converted = calcPoints(savedata.Karts[`${index}`].total_xp, rarity, 0);
     console.log(converted)
 
     if(boxPoints.style.backgroundImage.includes('DriverProgress')){
@@ -129,14 +129,14 @@ function generatePointsBox(itemType, points, progress, capLevel, rarity, index){
             listlevelprogress.id = `listpointprogress`
             listlevelprogress.className = 'listpointprogress';
             listlevelprogress.src = "./Images/UI/specificitem1.png";
-            listlevelprogress.value = savedata.Drivers[`${index}`].basepointsprogress;
-            listlevelprogress.max = savedata.Drivers[`${index}`].basepointsrangetotal;
+            listlevelprogress.value = savedata.Karts[`${index}`].basepointsprogress;
+            listlevelprogress.max = savedata.Karts[`${index}`].basepointsrangetotal;
             listlevelpanel.appendChild(listlevelprogress);
                     
             let listlevelprogresstext = document.createElement('p');
             listlevelprogresstext.id = `listpointprogresstext`
             listlevelprogresstext.className = `listpointprogresstext`;
-            listlevelprogresstext.innerHTML = `${savedata.Drivers[`${index}`].basepointsprogress} / ${savedata.Drivers[`${index}`].basepointsrangetotal}`;
+            listlevelprogresstext.innerHTML = `${savedata.Karts[`${index}`].basepointsprogress} / ${savedata.Karts[`${index}`].basepointsrangetotal}`;
             listlevelpanel.appendChild(listlevelprogresstext);
     }
     return boxPoints;
@@ -156,7 +156,7 @@ function generateLevelBox(itemType, level, progress, index){
     number.src = `./Images/UI/LevelNumber/${level}.png`
     boxLevel.appendChild(number);
 
-    let converted = convertToLevel(savedata.Drivers[`${index}`].totalCount, values[`${savedata.Drivers[`${index}`].id}`].rarityId);
+    let converted = convertToLevel(savedata.Karts[`${index}`].totalCount, values[`${savedata.Karts[`${index}`].id}`].rarityId);
     console.log(converted)
 
     if(level != 7){
