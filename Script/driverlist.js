@@ -1,8 +1,78 @@
-function generateDriverList(){
-
+function generateNavBarDriver(){
     let output = document.getElementById('drivers');
 
-    Object.keys(savedata.Drivers).forEach((t,i)=>{
+    let header = document.createElement('div');
+    header.className = "header";
+    output.appendChild(header); 
+
+    let descendDR = document.createElement('img');
+    descendDR.src = "./Images/UI/Header/DateReceivedD.png";
+    descendDR.className = "headerBtn";
+    descendDR.addEventListener('click', function () {
+        generateDriverList(0);
+    });
+    header.appendChild(descendDR);
+
+    let ascendDR = document.createElement('img');
+    ascendDR.src = "./Images/UI/Header/DateReceivedA.png";
+    ascendDR.className = "headerBtn";
+    ascendDR.addEventListener('click', function () {
+        generateDriverList(1);
+    });
+    header.appendChild(ascendDR);
+
+    let inGame = document.createElement('img');
+    inGame.src = "./Images/UI/Header/InGame.png";
+    inGame.className = "headerBtn";
+    inGame.addEventListener('click', function () {
+        generateDriverList(2);
+    });
+    header.appendChild(inGame);
+
+    let returnTop = document.createElement('img');
+    returnTop.src = "./Images/UI/Header/ReturnToTop.png";
+    returnTop.className = "returnTop";
+    returnTop.addEventListener('click', function () {
+        ReturnToTop();
+    });
+    header.appendChild(returnTop);
+
+    let backBtn = document.createElement('img');
+    backBtn.src = "./Images/UI/Header/Back.png";
+    backBtn.className = "backBtn";
+    backBtn.addEventListener('click', function () {
+        switchTab(0);
+    });
+    header.appendChild(backBtn);
+}
+
+function generateDriverList(type){
+
+    let output = document.getElementById('drivers');
+    output.innerHTML = "";
+
+    generateNavBarDriver();
+
+    let items = [];
+
+    switch(type){
+        case 0:
+            items = Object.keys(savedata.Drivers);
+            break;
+        case 1:
+            items = Object.keys(savedata.Drivers);
+            items.reverse();
+            break;
+        case 2:
+            items = Object.keys(savedata.Drivers);
+            items.sort(function (a, b) {
+                return values[`${savedata.Drivers[a].id}`].sortId - values[`${savedata.Drivers[b].id}`].sortId;
+            });
+            break;
+    }
+
+
+    items.forEach((t,i)=>{
         let driverDiv = document.createElement('div');
         driverDiv.id = `driver_${t}`;
         driverDiv.className = "driverDiv";
@@ -38,7 +108,7 @@ function generateDriverList(){
         //generateDateReceived
         let driverReceived = document.createElement('p');
         driverReceived.className = "driverReceived";
-        console.log(savedata.Drivers[t].received_epoch);
+        //console.log(savedata.Drivers[t].received_epoch);
         driverReceived.innerHTML = `Received: ${new Date(savedata.Drivers[t].received_epoch * 1000).toLocaleString()}`;
         driverTextDiv.appendChild(driverReceived);
 
@@ -117,7 +187,7 @@ function generatePointsBox(itemType, points, progress, capLevel, rarity, index){
     boxPoints.appendChild(pointsCount);
 
     let converted = calcPoints(savedata.Drivers[`${index}`].total_xp, rarity, 0);
-    console.log(converted)
+    //console.log(converted)
 
     if(boxPoints.style.backgroundImage.includes('DriverProgress')){
             let listlevelpanel = document.createElement('div');
@@ -157,7 +227,7 @@ function generateLevelBox(itemType, level, progress, index){
     boxLevel.appendChild(number);
 
     let converted = convertToLevel(savedata.Drivers[`${index}`].totalCount, values[`${savedata.Drivers[`${index}`].id}`].rarityId);
-    console.log(converted)
+    //console.log(converted)
 
     if(level != 7){
     let listlevelpanel = document.createElement('div');

@@ -1,3 +1,5 @@
+var isMobile = false;
+
 var currentCup = 0;
 var isDataEntered = false;
 var values;
@@ -36,6 +38,8 @@ let itemarray = [`00`,`01`,`02`,`03`,`04`,`05`,`06`,`07`,`10`,`11`,`12`,`13`,`14
 let driverTable = [];
 let machineTable = [];
 let wingTable = [];
+
+let currentScroll = [];
 
     let driverN = { "0": 400, "8": 408, "17": 416, "27": 424, "38": 432, "50": 440, "63": 448, "77": 456, "92": 464, "108": 472, "126": 480, "146": 488, "168": 496, "192": 504, "218": 512, "246": 520, "276": 528, "308": 536, "342": 544, "378": 552, "417": 560, "459": 568, "504": 576, "552": 584, "603": 592, "657": 600, "714": 608, "772": 616, "831": 624, "891": 632, "952": 640, "1014": 648, "1077": 656, "1141": 664, "1206": 672, "1272": 680, "1339": 688, "1407": 696, "1476": 704, "1546": 712, "1617": 720, "1689": 728, "1762": 736, "1836": 744, "1911": 752, "1987": 760 };
     let driverS = { "0": 450, "8": 459, "17": 468, "27": 477, "38": 486, "50": 495, "63": 504, "77": 513, "92": 522, "108": 531, "126": 540, "146": 549, "168": 558, "192": 567, "218": 576, "246": 585, "276": 594, "308": 603, "342": 612, "378": 621, "417": 630, "459": 639, "504": 648, "552": 657, "603": 666, "657": 675, "714": 690, "772": 705, "831": 720, "891": 735, "952": 750, "1014": 765, "1077": 780, "1141": 795, "1206": 810, "1272": 825, "1339": 840, "1407": 855, "1476": 870, "1546": 885, "1617": 900, "1689": 915, "1762": 930, "1836": 945, "1911": 960, "1987": 975 };
@@ -123,6 +127,16 @@ function generateArrays(){
 //   }
 // }
 
+function openPastTourStats(){
+    getSeasonKey();
+    location.href = `https://support.mariokarttour.com/en-US/players/${savedata.Profile.playerId}/season_summaries/${seasonKey.substring(6)}`;
+}
+
+function ReturnToTop(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0; 
+}
+
 function updatesavedata() {
     generateCourseList();
     document.getElementById('json').innerHTML = JSON.stringify(savedata, null, 2);
@@ -191,23 +205,35 @@ function switchTab(tab){
     switch(tab){
         case 0:
             hideAllTabsButOne('stats');
+            window.scroll(0, currentScroll);
             break;
         case 1:
+            currentScroll = window.scrollY;
             hideAllTabsButOne('drivers');
+            ReturnToTop();
             break;
         case 2:
+            currentScroll = window.scrollY;
             hideAllTabsButOne('karts');
+            ReturnToTop();
             break;
         case 3:
+            currentScroll = window.scrollY;
             hideAllTabsButOne('gliders');
+            ReturnToTop();
             break;
         case 4:
+            currentScroll = window.scrollY;
             hideAllTabsButOne('badges');
+            ReturnToTop();
             break;
         case 5:
+            currentScroll = window.scrollY;
             hideAllTabsButOne('items');
+            ReturnToTop();
             break;
     }
+    zoomOutMobile();
 }
 
 function hideAllTabsButOne(tab){
