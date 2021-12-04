@@ -10,12 +10,13 @@
          <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="./Style/lists_mobile.css">
       <style>
          @font-face {font-family: tour;src: url('./Font/nintendoP_NTLG-NR-DB_003.ttf');}
-         @font-face {font-family: 'headername';src: url('./Font/nintendoP_NTLG-NR-UB_003.otf') format('opentype');font-display: swap;font-style: normal;font-weight: bold;}
-         @font-face {font-family: 'headername2';src: url('./Font/nintendop_ntlg-nr-db_003.otf') format('opentype');font-display: swap;font-style: normal;font-weight: bold;}
+         /* @font-face {font-family: 'headername';src: url('./Font/nintendoP_NTLG-NR-UB_003.otf') format('opentype');font-display: swap;font-style: normal;font-weight: bold;}
+         @font-face {font-family: 'headername2';src: url('./Font/nintendop_ntlg-nr-db_003.otf') format('opentype');font-display: swap;font-style: normal;font-weight: bold;} */
       </style>
       <link rel="preload" href="./Images/UI/Loading.png" as="image"> 
       <link rel="preload" href="./Images/UI/Profile/Logo.png" as="image">
       <link rel="preload" href="./Images/UI/Profile/NameCard.png" as="image">
+      <link rel="preload" href="./Images/UI/Profile/Header.png" as="image">
       <div> 
    </head>
    <body class="main" style="height: 100%;overflow: overlay;background-image: url('./Images/UI/Background/gradient.png');background-size: contain;background-attachment: fixed;" id="bigbody">
@@ -50,6 +51,10 @@
       </div>
    </div> -->
       <div id="content" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;border: 5px solid #b5ceff;*/">
+         <div id="nodata" style="display:none">
+            <p class="landingpagetxt">Your data has not been found! Please re-enter your data on the input page:</p>
+            <button class="nodatabtn" onclick="location.href = 'input.html';">Input Data</button>
+         </div>
          <!-- <div class="header_accsnap">
             <a href="#default" class="logo">CompanyLogo</a>
             <div class="header_accsnap-right">
@@ -158,12 +163,14 @@
         console.log(isMobile);
         calcValuesStats();
         generateProfile();
-        generateDriverList(0);
-        generateKartList(0);
-        generateGliderList(0);
-        generateBadgeList(2);
-        generateItemList();
+      //   generateDriverList(0);
+      //   generateKartList(0);
+      //   generateGliderList(0);
+      //   generateBadgeList(2);
+      //   generateItemList();
         //document.getElementById('json').innerHTML = JSON.stringify(savedata, null, 2);
+      } else {
+         document.getElementById('nodata').style.display = "block";
       }
 
       if(localStorage.getItem("MKTVSettingData") != null){

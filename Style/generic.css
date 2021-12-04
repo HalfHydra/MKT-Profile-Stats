@@ -1,9 +1,9 @@
 .landingpagetxt {
-    font-family: Tahoma;
+    font-family: tour;
     margin: 10px auto;
     width: 600px;
     font-size: 22px;
-    line-height: 26px;
+    line-height: 30px;
     text-align: center;
     color: white;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -81,4 +81,13 @@ div {
     justify-content: center;
     margin-top: -10px;
     margin-bottom: 4px;
+}
+
+.nodatabtn {
+    margin: 0 auto;
+    display: block;
+    width: 200px;
+    height: 80px;
+    font-size: 28px;
+    font-family: 'tour';
 }

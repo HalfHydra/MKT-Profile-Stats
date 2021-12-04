@@ -23,6 +23,8 @@ let savedata = {
     }
 }
 
+let createdMenus = [0,0,0,0,0];
+
 var characterid = [];
 var charrarity = [];
 var charitem = [];
@@ -129,7 +131,7 @@ function generateArrays(){
 
 function openPastTourStats(){
     getSeasonKey();
-    location.href = `https://support.mariokarttour.com/en-US/players/${savedata.Profile.playerId}/season_summaries/${seasonKey.substring(6)}`;
+    location.href = `https://support.mariokarttour.com/en-US/players/${savedata.Profile.playerId}/season_summaries/${parseInt(seasonKey.substring(6)) - 1}`;
 }
 
 function ReturnToTop(){
@@ -209,26 +211,47 @@ function switchTab(tab){
             break;
         case 1:
             currentScroll = window.scrollY;
+            if(!createdMenus[0]){
+                console.log("created");
+                generateDriverList(0);
+                createdMenus[0] = 1;
+            }
             hideAllTabsButOne('drivers');
             ReturnToTop();
             break;
         case 2:
             currentScroll = window.scrollY;
+            if(!createdMenus[1]){
+                generateKartList(0);
+                createdMenus[0] = 1;
+            }
             hideAllTabsButOne('karts');
             ReturnToTop();
             break;
         case 3:
             currentScroll = window.scrollY;
+            if(!createdMenus[2]){
+                generateGliderList(0);
+                createdMenus[0] = 1;
+            }
             hideAllTabsButOne('gliders');
             ReturnToTop();
             break;
         case 4:
             currentScroll = window.scrollY;
+            if(!createdMenus[3]){
+                generateBadgeList(2);
+                createdMenus[0] = 1;
+            }
             hideAllTabsButOne('badges');
             ReturnToTop();
             break;
         case 5:
             currentScroll = window.scrollY;
+            if(!createdMenus[4]){
+                generateItemList();
+                createdMenus[0] = 1;
+            }
             hideAllTabsButOne('items');
             ReturnToTop();
             break;

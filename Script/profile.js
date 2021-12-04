@@ -682,7 +682,7 @@ function generateProfile(){
 
     let lastText = document.createElement('p');
     lastText.className = "landingpagetxt";
-    lastText.innerHTML = "That's all for now! I hope you enjoyed this site! More may be added in the future involving courses. I spent a very long time trying to get this right, and look amazing while doing so. <br><br>If you have any feedback, please feel free to reach out to me - the easiest way is via my Discord server at discord.gg/UeJZDXxzun<br><br>One last surprise, tap this button here to access your past tour stats!";
+    lastText.innerHTML = "That's all for now! I hope you enjoyed this site! More may be added in the future involving courses. I spent a very long time trying to get this right, and look amazing while doing so. <br><br>If you have any feedback, please feel free to reach out to me - the easiest way is via my Discord server at discord.gg/UeJZDXxzun<br><br>One last surprise, tap this button here to access your past tour stats! You might need to decrease your browser window size if you are not on mobile.";
     output.appendChild(lastText);
 
     let btnPTS = document.createElement('div');

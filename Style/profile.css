@@ -6,7 +6,7 @@
 .listBtnTxt {
     margin-top: -23px;
     margin-left: 22px;
-    font-family: headername2;
+    font-family: tour;
     font-size: 37px;
     text-align: center;
     display: inline-block;
@@ -15,7 +15,7 @@
 
 .titletxt {
     width: 100%;
-    font-family: headername2;
+    font-family: tour;
     font-size: 48px;
     text-align: center;
     display: inline-block;
@@ -43,7 +43,7 @@
 
 .nametxt {
     width: 100%;
-    font-family: headername2;
+    font-family: tour;
     font-size: 36px;
     text-align: center;
     display: inline-block;
@@ -56,7 +56,7 @@
 
 .takentxt {
     width: 100%;
-    font-family: headername2;
+    font-family: tour;
     font-size: 28px;
     text-align: center;
     display: inline-block;
