@@ -1,4 +1,5 @@
 var isMobile = false;
+let version = "1.3.4";
 
 var currentCup = 0;
 var isDataEntered = false;
@@ -401,7 +402,7 @@ function generateDKGPanel(itemId, scale, isFav, hideUI){
 
     let rarityId = values[`${itemId}`].rarityId;
     
-    var dkgPanel = document.createElement('div');
+    let dkgPanel = document.createElement('div');
     dkgPanel.className = 'dkgPanel';
     if(scale != 1.0){
         dkgPanel.style.width = `${150 * scale}px`;
@@ -482,12 +483,12 @@ function generateDKGPanel(itemId, scale, isFav, hideUI){
     } else if(hideUI) {
         //Do Nothing
     } else {
-        var charoutput = [];
-        for (var i = 0; i < points.toLocaleString().length; i++) {
+        let charoutput = [];
+        for (let i = 0; i < points.toLocaleString().length; i++) {
             charoutput.push(points.toLocaleString().charAt(i));
         }
         charoutput.forEach((t, i) => {
-            var number = document.createElement('img');
+            let number = document.createElement('img');
             number.className = `scoreNumber`;
             if (t == ",") {
                 number.className = `scoreComma`;
@@ -557,7 +558,7 @@ function generateDKGPanelSpecial(itemId, points, level, scale, isFav, hideUI){
 
     let rarityId = values[`${itemId}`].rarityId;
     
-    var dkgPanel = document.createElement('div');
+    let dkgPanel = document.createElement('div');
     dkgPanel.className = 'dkgPanel';
     if(scale != 1.0){
         dkgPanel.style.width = `${150 * scale}px`;
@@ -609,12 +610,12 @@ function generateDKGPanelSpecial(itemId, points, level, scale, isFav, hideUI){
     } else if(hideUI) {
         //Do Nothing
     } else {
-        var charoutput = [];
-        for (var i = 0; i < points.toLocaleString().length; i++) {
+        let charoutput = [];
+        for (let i = 0; i < points.toLocaleString().length; i++) {
             charoutput.push(points.toLocaleString().charAt(i));
         }
         charoutput.forEach((t, i) => {
-            var number = document.createElement('img');
+            let number = document.createElement('img');
             number.className = `scoreNumber`;
             if (t == ",") {
                 number.className = `scoreComma`;

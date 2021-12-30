@@ -80,8 +80,9 @@
     font-family: tour;
     font-size: 24px;
     color: white;
-    margin-left: 30px;
+    /* margin-left: 30px; */
     margin-top: 5px;
+    text-align: center;
 }
 
 .pointsContainer {
@@ -208,7 +209,7 @@
     height: 260px;
     display: inline-block;
     text-align: center;
-    padding: 8px;
+    padding: 10px;
     background-image: url('../Images/UI/Background/BigButtonBadge.png');
     background-repeat: no-repeat;
 }

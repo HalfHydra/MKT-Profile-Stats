@@ -183,7 +183,7 @@ function generateProfile(){
 
     recordsDiv.appendChild(generateRecord("Gliders", savedata.Profile.glider_count))
 
-    recordsDiv.appendChild(generateRecord("Badges", savedata.Profile.badge_count))
+    // recordsDiv.appendChild(generateRecord("Badges", savedata.Profile.badge_count))
 
     recordsDiv.appendChild(generateRecord("Highest Score", savedata.Profile.all_time_best_course_score.toLocaleString()))
 
@@ -255,10 +255,13 @@ function generateProfile(){
     nums.forEach((t, i) => {
         let number = document.createElement('img');
         number.className = `scoreNumberTP`;
-        if (t == ",") {
+        if (t == "," || t == ".") {
             number.className = `scoreCommaTP`;
         }
         number.src = `./Images/UI/Number/${t}.png`
+        if(t == "."){
+            number.src = `./Images/UI/Number/period.png`
+        }
         totalPoints.appendChild(number);
     });
     tabRecords.appendChild(totalPoints);
@@ -292,10 +295,13 @@ function generateProfile(){
         cupNums.forEach((t, i) => {
             let numberCup = document.createElement('img');
             numberCup.className = `scoreNumberC`;
-            if (t == ",") {
+            if (t == "," || t == ".") {
                 numberCup.className = `scoreCommaC`;
             }
             numberCup.src = `./Images/UI/Number/${t}.png`
+            if(t == "."){
+                number.src = `./Images/UI/Number/period.png`
+            }
             cupPoints.appendChild(numberCup);
         });
         cupDiv.appendChild(cupPoints);
@@ -349,10 +355,13 @@ function generateProfile(){
                 courseNums.forEach((t, i) => {
                     let numberCourse = document.createElement('img');
                     numberCourse.className = `scoreNumberT`;
-                    if (t == ",") {
+                    if (t == "," || t == ".") {
                         numberCourse.className = `scoreCommaT`;
                     }
                     numberCourse.src = `./Images/UI/Number/${t}.png`
+                    if(t == "."){
+                        number.src = `./Images/UI/Number/period.png`
+                    }
                     coursePoints.appendChild(numberCourse);
                 });
                 cupDataDiv.appendChild(coursePoints);
@@ -391,28 +400,28 @@ function openList(list){
     switch(list){
         case 0:
             if(!createdLists[0]){
-                generateDriverList();
+                generateGameDriverList();
                 createdLists[0] = 1;
             }
             document.getElementById('drivers').style.display = "block";
             break;
         case 1:
             if(!createdLists[1]){
-                generateKartList();
+                generateGameKartList();
                 createdLists[1] = 1;
             }
             document.getElementById('karts').style.display = "block";
             break;
         case 2:
             if(!createdLists[2]){
-                generateGliderList();
+                generateGameGliderList();
                 createdLists[2] = 1;
             }
             document.getElementById('gliders').style.display = "block";
             break;
         case 3:
             if(!createdLists[3]){
-                generateBadgeList();
+                generateGameBadgeList();
                 createdLists[3] = 1;
             }
             document.getElementById('badges').style.display = "block";
@@ -425,7 +434,7 @@ function returnToMain(current){
     document.getElementById('stats').style.display = "block";
 }
 
-function generateDriverList(){
+function generateGameDriverList(){
     let output = document.getElementById('drivers')
 
     let titleDiv = document.createElement('div');
@@ -479,12 +488,97 @@ function generateDriverList(){
         return 0;
     });
 
+    // let itemDivider = document.createElement('div');
+    // itemDivider.id = "item50";
+    // listDiv.appendChild(itemDivider);
+
+    // let moreBtn = document.createElement('img');
+    // moreBtn.src = "./Images/UI/Header/Back.png";
+    // moreBtn.className = "moreBtn";
+    // moreBtn.addEventListener('click', function () {
+    //     document.getElementById('item100').style.display = "block";
+    // });
+    //itemDivider.appendChild(moreBtn);
+
+    // let itemDivider2 = document.createElement('div');
+    // itemDivider2.id = "item100";
+    // itemDivider2.style.display = "none";
+    // listDiv.appendChild(itemDivider2);
+
+    // let moreBtn2 = document.createElement('img');
+    // moreBtn2.src = "./Images/UI/Header/Back.png";
+    // moreBtn2.className = "moreBtn";
+    // moreBtn2.addEventListener('click', function () {
+    //     document.getElementById('item150').style.display = "block";
+    // });
+
+    // let itemDivider3 = document.createElement('div');
+    // itemDivider3.id = "item150";
+    // itemDivider3.style.display = "none";
+    // listDiv.appendChild(itemDivider3);
+
+    let currentDiv;
+    let pageCount = 20;
+
+    let itemDividerFirst = document.createElement('div');
+    itemDividerFirst.id = `itemD0`;
+    //itemDividerFirst.className = "itemDividerClassFirst";
+    listDiv.appendChild(itemDividerFirst);
+    currentDiv = itemDividerFirst;
+
+    let navDivFirst = document.createElement('div');
+    navDivFirst.className = "itemDividerClassFirst";
+    currentDiv.appendChild(navDivFirst);
+
+    let rightBtn = document.createElement('img');
+    rightBtn.src = "./Images/UI/Lists/GoRight.png";
+    rightBtn.className = "rightBtn";
+    rightBtn.addEventListener('click', function () {
+        document.getElementById(`itemD${pageCount}`).style.display = "block";
+        document.getElementById(`itemD0`).style.display = "none";
+    });
+    navDivFirst.appendChild(rightBtn)
+
+    let lastRight;
+
     driverTableSort.forEach((t,i)=>{
-        listDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
+        if(i % pageCount == 0 && i != 0) {
+            itemDivider = document.createElement('div');
+            itemDivider.id = `itemD${i}`;
+            itemDivider.style.display = "none";
+            //itemDivider.className = "itemDividerClass";
+            listDiv.appendChild(itemDivider);
+            currentDiv = itemDivider;
+
+            let navDiv = document.createElement('div');
+            navDiv.className = "itemDividerClass";
+            currentDiv.appendChild(navDiv);
+
+            let leftBtn = document.createElement('img');
+            leftBtn.src = "./Images/UI/Lists/GoLeft.png";
+            leftBtn.className = "leftBtn";
+            leftBtn.addEventListener('click', function () {
+                document.getElementById(`itemD${i-pageCount}`).style.display = "block";
+                document.getElementById(`itemD${i}`).style.display = "none";
+            });
+            navDiv.appendChild(leftBtn)
+
+            let rightBtn = document.createElement('img');
+            rightBtn.src = "./Images/UI/Lists/GoRight.png";
+            rightBtn.className = "rightBtn";
+            rightBtn.addEventListener('click', function () {
+                document.getElementById(`itemD${i+pageCount}`).style.display = "block";
+                document.getElementById(`itemD${i}`).style.display = "none";
+            });
+            navDiv.appendChild(rightBtn)
+            lastRight = rightBtn;
+        }
+        currentDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
     })
+    lastRight.style.display = "none";
 }
 
-function generateKartList(){
+function generateGameKartList(){
     let output = document.getElementById('karts')
 
     let titleDiv = document.createElement('div');
@@ -538,15 +632,71 @@ function generateKartList(){
         return 0;
     });
 
+    let currentDiv;
+    let pageCount = 20;
+
+    let itemDividerFirst = document.createElement('div');
+    itemDividerFirst.id = `itemM0`;
+    //itemDividerFirst.className = "itemDividerClassFirst";
+    listDiv.appendChild(itemDividerFirst);
+    currentDiv = itemDividerFirst;
+
+    let navDivFirst = document.createElement('div');
+    navDivFirst.className = "itemDividerClassFirst";
+    currentDiv.appendChild(navDivFirst);
+
+    let rightBtn = document.createElement('img');
+    rightBtn.src = "./Images/UI/Lists/GoRight.png";
+    rightBtn.className = "rightBtn";
+    rightBtn.addEventListener('click', function () {
+        document.getElementById(`itemM${pageCount}`).style.display = "block";
+        document.getElementById(`itemM0`).style.display = "none";
+    });
+    navDivFirst.appendChild(rightBtn)
+
+    let lastRight;
+
     machineTableSort.forEach((t,i)=>{
-        listDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
+        if(i % pageCount == 0 && i != 0) {
+            itemDivider = document.createElement('div');
+            itemDivider.id = `itemM${i}`;
+            itemDivider.style.display = "none";
+            //itemDivider.className = "itemDividerClass";
+            listDiv.appendChild(itemDivider);
+            currentDiv = itemDivider;
+        
+            let navDiv = document.createElement('div');
+            navDiv.className = "itemDividerClass";
+            currentDiv.appendChild(navDiv);
+        
+            let leftBtn = document.createElement('img');
+            leftBtn.src = "./Images/UI/Lists/GoLeft.png";
+            leftBtn.className = "leftBtn";
+            leftBtn.addEventListener('click', function () {
+                document.getElementById(`itemM${i-pageCount}`).style.display = "block";
+                document.getElementById(`itemM${i}`).style.display = "none";
+            });
+            navDiv.appendChild(leftBtn)
+        
+            let rightBtn = document.createElement('img');
+            rightBtn.src = "./Images/UI/Lists/GoRight.png";
+            rightBtn.className = "rightBtn";
+            rightBtn.addEventListener('click', function () {
+                document.getElementById(`itemM${i+pageCount}`).style.display = "block";
+                document.getElementById(`itemM${i}`).style.display = "none";
+            });
+            navDiv.appendChild(rightBtn)
+            lastRight = rightBtn;
+        }
+        currentDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
         // if (itemId.toString().length == 5 && Math.round(itemId / 1000) == 70) {
         //     listDiv.appendChild(generateDKGPanel(itemId, 1.0, true, false));
         // }
     })
+    lastRight.style.display = "none";
 }
 
-function generateGliderList(){
+function generateGameGliderList(){
     let output = document.getElementById('gliders')
 
     let titleDiv = document.createElement('div');
@@ -600,12 +750,68 @@ function generateGliderList(){
         return 0;
     });
 
+    let currentDiv;
+    let pageCount = 20;
+
+    let itemDividerFirst = document.createElement('div');
+    itemDividerFirst.id = `itemG0`;
+    //itemDividerFirst.className = "itemDividerClassFirst";
+    listDiv.appendChild(itemDividerFirst);
+    currentDiv = itemDividerFirst;
+
+    let navDivFirst = document.createElement('div');
+    navDivFirst.className = "itemDividerClassFirst";
+    currentDiv.appendChild(navDivFirst);
+
+    let rightBtn = document.createElement('img');
+    rightBtn.src = "./Images/UI/Lists/GoRight.png";
+    rightBtn.className = "rightBtn";
+    rightBtn.addEventListener('click', function () {
+        document.getElementById(`itemG${pageCount}`).style.display = "block";
+        document.getElementById(`itemG0`).style.display = "none";
+    });
+    navDivFirst.appendChild(rightBtn)
+
+    let lastRight;
+
     wingTableSort.forEach((t,i)=>{
-        listDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
+        if(i % pageCount == 0 && i != 0) {
+            itemDivider = document.createElement('div');
+            itemDivider.id = `itemG${i}`;
+            itemDivider.style.display = "none";
+            //itemDivider.className = "itemDividerClass";
+            listDiv.appendChild(itemDivider);
+            currentDiv = itemDivider;
+        
+            let navDiv = document.createElement('div');
+            navDiv.className = "itemDividerClass";
+            currentDiv.appendChild(navDiv);
+        
+            let leftBtn = document.createElement('img');
+            leftBtn.src = "./Images/UI/Lists/GoLeft.png";
+            leftBtn.className = "leftBtn";
+            leftBtn.addEventListener('click', function () {
+                document.getElementById(`itemG${i-pageCount}`).style.display = "block";
+                document.getElementById(`itemG${i}`).style.display = "none";
+            });
+            navDiv.appendChild(leftBtn)
+        
+            let rightBtn = document.createElement('img');
+            rightBtn.src = "./Images/UI/Lists/GoRight.png";
+            rightBtn.className = "rightBtn";
+            rightBtn.addEventListener('click', function () {
+                document.getElementById(`itemG${i+pageCount}`).style.display = "block";
+                document.getElementById(`itemG${i}`).style.display = "none";
+            });
+            navDiv.appendChild(rightBtn)
+            lastRight = rightBtn;
+        }
+        currentDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
     })
+    lastRight.style.display = "none";
 }
 
-function generateBadgeList(){
+function generateGameBadgeList(){
     let output = document.getElementById('badges')
 
     let titleDiv = document.createElement('div');
@@ -659,6 +865,10 @@ function toggleOwned(source) {
 }
 
 function generateRecord(key, value){
+    if(value == -1){
+        value = "None"
+    }
+
     let recordDiv = document.createElement('div');
     recordDiv.className = "recordDiv"
 

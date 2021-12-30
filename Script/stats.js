@@ -795,12 +795,18 @@ function getTutorialDrivers(){
 }
 
 function firstXItems(x){
+    if(allItems.length < x){
+        x = allItems.length - 4
+    }
     for(let i = 4; i<(x+4);i++){
         statsJSON.first_10_dkg.push(allItems[i].id)
     }
 }
 
 function firstXHighEnds(x){
+    if(allItems.length < x){
+        x = allItems.length - 4
+    }
     allItems.forEach((t,i)=>{
         if(new_values[t.id].rarityId == 2 && statsJSON.first_10_high_ends.length < x){
             statsJSON.first_10_high_ends.push(allItems[i].id)
@@ -869,10 +875,12 @@ function getTripleCappedDKG(){
 }
 
 function getMaxedDKG(){
+    let maxedPointsCounts = [1400, 975, 760, 380, 450, 700];
     allItemsSort.forEach((t,i)=>{
         let level = t.level;
         let pointCapLevel = t.pointCapLevel;
-        if(level == 7 && pointCapLevel == 3){
+        let basePoints = t.basepoints;
+        if(level == 7 && pointCapLevel == 3 && maxedPointsCounts.includes(basePoints)){
             statsJSON.completely_maxed_dkg.push(t.id);
         }
     });
@@ -1017,6 +1025,9 @@ function teamRallyBadges(){
 function getMostObtainedBadges(x){
     //Self Explanitory
     let most_obtained = [];
+    if(badgesInCountOrder.length < x){
+        x = badgesInCountOrder.length
+    }
     for(let i=0; i<x; i++){
         most_obtained[i] = badgesInCountOrder[i].key;
     }
