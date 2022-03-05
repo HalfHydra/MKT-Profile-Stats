@@ -1392,3 +1392,58 @@ function createCourseReverseDict(){
         courseReverse[coursenames[t]] = t;
     })
 }
+
+function generateLevelsCSV(){
+    let CSV = "D/K/G, Points Cap, Level, Level Progress, Received\n";
+    Object.keys(allItemsSort).forEach((t,i)=>{
+        let item = allItemsSort[t];
+        CSV += `${item.name}, ${item.pointCapLevel}, ${item.level}, ${item.progress}, ${new Date(item.received_epoch * 1000).toLocaleDateString()}\n`;
+    })
+    Object.keys(new_values).forEach((t,i)=>{
+        if(!allItemsIds.includes(parseInt(t)) && parseInt(t) != 29 && parseInt(t) != 70057){
+            CSV += `${new_values[t].nameEng}, 0, 0, 0, 0\n`;
+        }
+    })
+    return CSV
+}
+
+
+function generateBGCSV(){
+    let CSV = "D/K/G, Type, Level, Points Cap\n";
+    Object.keys(allItemsSort).forEach((t,i)=>{
+        let item = allItemsSort[t];
+        CSV += `${convertAccents(item.name)}, ${getItemType(item.id, "DKG")}, ${item.level}, ${item.pointCapLevel},\n`;
+    })
+    return CSV;
+}
+
+function generateCustomCSV(flags){
+    let CSV = `${(flags[0])? "D/K/G, ": ""}${(flags[1])? "Base Points, ": ""}${(flags[2])? "Base Points Progress, ": ""}${(flags[3])? "Level, ": ""}${(flags[4])? "Level Progress, ": ""}${(flags[5])? "Points Cap, ": ""}${(flags[6])? "Total Copies, ": ""}${(flags[7])? "Received, ": ""}${(flags[8])? "Last Used, ": ""}\n`;
+    Object.keys(allItemsSort).forEach((t,i)=>{
+        let item = allItemsSort[t];
+        //CSV += `${item.name}, ${item.pointCapLevel}, ${item.level}, ${item.progress}, ${item.received_epoch}\n`;
+        CSV += `${(flags[0])? `${item.name}, `: ""}${(flags[1])? `${item.basepoints}, `: ""}${(flags[2])? `${item.basepointsprogress}/${item.basepointsrangetotal}, `: ""}${(flags[3])? `${item.level}, `: ""}${(flags[4])? `${item.progress}, `: ""}${(flags[5])? `${item.pointCapLevel}, `: ""}${(flags[6])? `${item.totalCount}, `: ""}${(flags[7])? `${new Date(item.received_epoch * 1000).toLocaleDateString()} ${new Date(item.received_epoch * 1000).toLocaleTimeString()}, `: ""}${(flags[8])? `${new Date(item.last_used_epoch * 1000).toLocaleDateString()} ${new Date(item.last_used_epoch * 1000).toLocaleTimeString()}, `: ""}\n`;
+    })
+    return CSV;
+}
+
+function convertAccents(input) {
+    return input.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function getItemType(id, outputType){
+    let type = null;
+    switch(outputType){
+        case "012":
+            type = 0;
+            if(`${id}`.length == 5 && Math.floor(id / 1000) == 70){ type = 1}
+            if(`${id}`.length == 5 && Math.floor(id / 1000) == 30){ type = 2}
+            break;
+        case "DKG":
+            type = "D";
+            if(`${id}`.length == 5 && Math.floor(id / 1000) == 70){ type = "K"}
+            if(`${id}`.length == 5 && Math.floor(id / 1000) == 30){ type = "G"}
+            break;
+    }
+    return type;
+}
