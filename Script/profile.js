@@ -740,32 +740,46 @@ function generateProfile(){
     //     missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
     // })
 
-    let driversTxt = document.createElement('p');
-    driversTxt.className = "subheaderTxt";
-    driversTxt.innerHTML = "Drivers";
-    missingDiv.appendChild(driversTxt);
+    if(statsJSON.missing_courses_d.length != 0){
+        let driversTxt = document.createElement('p');
+        driversTxt.className = "subheaderTxt";
+        driversTxt.innerHTML = "Drivers";
+        missingDiv.appendChild(driversTxt);
 
-    statsJSON.missing_courses_d.forEach((t,i) => {
-        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
-    })
+        statsJSON.missing_courses_d.forEach((t,i) => {
+            missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+        })
+    }
 
-    let kartsTxt = document.createElement('p');
-    kartsTxt.className = "subheaderTxt";
-    kartsTxt.innerHTML = "Karts";
-    missingDiv.appendChild(kartsTxt);
+    if(statsJSON.missing_courses_k.length != 0){
+        let kartsTxt = document.createElement('p');
+        kartsTxt.className = "subheaderTxt";
+        kartsTxt.innerHTML = "Karts";
+        missingDiv.appendChild(kartsTxt);
 
-    statsJSON.missing_courses_k.forEach((t,i) => {
-        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
-    })
+        statsJSON.missing_courses_k.forEach((t,i) => {
+            missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+        })
+    }
 
-    let glidersTxt = document.createElement('p');
-    glidersTxt.className = "subheaderTxt";
-    glidersTxt.innerHTML = "Gliders";
-    missingDiv.appendChild(glidersTxt);
+    if(statsJSON.missing_courses_g.length != 0){
+        let glidersTxt = document.createElement('p');
+        glidersTxt.className = "subheaderTxt";
+        glidersTxt.innerHTML = "Gliders";
+        missingDiv.appendChild(glidersTxt);
+    
+        statsJSON.missing_courses_g.forEach((t,i) => {
+            missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+        })
+    }
 
-    statsJSON.missing_courses_g.forEach((t,i) => {
-        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
-    })
+    if(statsJSON.missing_courses_d.length == 0 && statsJSON.missing_courses_k.length == 0 && statsJSON.missing_courses_g.length == 0){
+        let noneText = document.createElement('p');
+        noneText.className = "noneYetText";
+        noneText.innerHTML = "None! Wow, congratulations!";
+        noneText.style.padding = "10px";
+        missingDiv.appendChild(noneText);
+    }
 
     output.appendChild(generateSectionBar(`Account Worth`));
 
