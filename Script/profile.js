@@ -840,7 +840,7 @@ function generateProfile(){
 
     let dataText = document.createElement('p');
     dataText.className = "landingpagetxt";
-    dataText.innerHTML = `It has been requested that I make a way for you to convert your account snapshots into a csv format of your data. Here it is.<br><br> There are 2 presets, the first one is a generic one with only the most useful or interesting information, and the second one being a csv you can copy directly into a Bam and Gerbs style spreadsheet! After those two, you have the option of making a customized spreadsheet too with only the information you want in it. Check the boxes of the data you want, then click the custom format button to download it.`;
+    dataText.innerHTML = `It has been requested that I make a way for you to convert your account snapshots into a csv format of your items and level data. Here it is.<br><br> There are 2 presets, the first one is a generic one with only the most useful or interesting information, and the second one being a csv you can copy directly into a Bam and Gerbs style spreadsheet! Click or tap the buttons to download the respective types.<br><br>After those two, you have the option of making a customized spreadsheet too with only the information you want in it. Check the boxes of the data you want, then click the custom format button to download it.`;
     output.appendChild(dataText);
 
     let presetTxt = document.createElement('p');
@@ -903,7 +903,7 @@ function generateProfile(){
     customDataDiv.appendChild(generateToggle("flag_9","Last Used"));
 
     let btnCustomCSV = document.createElement('div');
-    btnCustomCSV.className = "headerDiv";
+    btnCustomCSV.className = "headerDiv wipText";
     btnCustomCSV.addEventListener('click', function () {
         downloadDataCSV(2);
     });
