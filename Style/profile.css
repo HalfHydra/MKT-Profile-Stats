@@ -395,3 +395,9 @@
 .acrCenter {
     text-align: center;
 }
+
+.missingDiv {
+    width: 650px;
+    margin:0 auto;
+    text-align: center;
+}

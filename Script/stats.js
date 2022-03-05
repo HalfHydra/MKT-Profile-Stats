@@ -33,11 +33,13 @@ let badgesInSortOrder = [];
 
 let coinWorth = { "DKG": { "Drivers": { "HighEnd": 12000, "Super": 3000, "Common": 800 }, "Karts": { "HighEnd": 10000, "Super": 2000, "Common": 500 }, "Gliders": { "HighEnd": 10000, "Super": 2000, "Common": 500 } }, "Items": { "90001": 1, "90005": 50, "90006": 100, "90007": 1000, "90305": 800, "90306": 3000, "90307": 12000, "90309": 500, "90310": 2000, "90311": 10000, "90313": 500, "90314": 2000, "90315": 10000, "90404": 100, "90408": 100, "90412": 100, "90500": 800, "90605": 2000, "90606": 5000, "90607": 20000, "90609": 2000, "90610": 5000, "90611": 20000, "90613": 2000, "90614": 5000, "90615": 20000 } };
 
+let courseReverse = {};
 
 function calcValuesStats() {
     inputData();
     convertToUsable();
     convertCourseNames();
+    createCourseReverseDict();
     //generateItemArrays(); Already done
     convertInternalCourseValues();
     createCourseData();
@@ -119,6 +121,16 @@ function convertCourseNames(){
                 coursenames[t] = "SNES Rainbow Road R/T"
                 break;
             }
+    });
+    //Making sure only courses that were in that time period are here
+    stringJSON = JSON.stringify(new_values);
+    Object.keys(coursenames).forEach((t, i) => {
+        if(stringJSON.includes(t)){
+            courseList.push(t);
+            //console.log(`The courses does have ${coursenames[t]}`)
+        } else {
+            delete coursenames[t];
+        }
     });
 }
 
@@ -401,6 +413,9 @@ function initializeProperties(){
     statsJSON.rally_badges = [];
     statsJSON.nearly_maxed_courses = [];
     statsJSON.maxed_courses = [];
+    statsJSON.missing_courses_d = [];
+    statsJSON.missing_courses_k = [];
+    statsJSON.missing_courses_g = [];
     statsJSON.courseRatingArray = [];
     statsJSON.total_coin_worth = 0;
     statsJSON.total_ruby_worth = 0;
@@ -448,6 +463,7 @@ function buildStats(){
     getMostObtainedBadges(10);
     calcMaxCourses(27);
     mostItemUsesCourses();
+    missingCourseCoverage();
     calcCourseRatingArray();
     simulateCoinWorth();
     simulateRubiesSpent();
@@ -1299,27 +1315,21 @@ function mostItemUsesCourses(){
 
 function missingCourseCoverage(){
     //loops usercoursedata 3 times for d/k/g, creates 3 arrays for missing top shelf d/k/g
-    let top_shelf_driver_missing = [];
-    let top_shelf_kart_missing = [];
-    let top_shelf_glider_missing = [];
     Object.keys(usercoursedata.Courses).forEach(t =>{
         if(usercoursedata.Courses[t].moreGoodAt.Drivers.length == 0){
-            top_shelf_driver_missing.push(t);
+            statsJSON.missing_courses_d.push(t);
         }
     })
     Object.keys(usercoursedata.Courses).forEach(t =>{
         if(usercoursedata.Courses[t].moreGoodAt.Karts.length == 0){
-            top_shelf_kart_missing.push(t);
+            statsJSON.missing_courses_k.push(t);
         }
     })
     Object.keys(usercoursedata.Courses).forEach(t =>{
         if(usercoursedata.Courses[t].moreGoodAt.Gliders.length == 0){
-            top_shelf_glider_missing.push(t);
+            statsJSON.missing_courses_g.push(t);
         }
     })
-    //console.log(top_shelf_driver_missing);
-    //console.log(top_shelf_kart_missing);
-    //console.log(top_shelf_glider_missing);
 }
 
 function convertStatsJSONEnglish(){
@@ -1375,4 +1385,10 @@ function convertNameToId(input) {
         }
     });
     return itemId;
+}
+
+function createCourseReverseDict(){
+    Object.keys(coursenames).forEach((t,i)=>{
+        courseReverse[coursenames[t]] = t;
+    })
 }

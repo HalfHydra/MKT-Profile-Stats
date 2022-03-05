@@ -146,10 +146,16 @@ function generateProfile(){
     favDiv.className = "favDiv";
     output.appendChild(favDiv);
 
-    savedata.Profile.favorite_drivers.forEach((t,i)=>{
-        favDiv.appendChild(generateDKGPanel(convertNameToId(t), 1.0, true, false));
-    })
 
+    if(savedata.Profile.hasOwnProperty("favorite_drivers_ids")){
+        savedata.Profile.favorite_drivers_ids.forEach((t,i)=>{
+            favDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
+        })
+    } else {
+      savedata.Profile.favorite_drivers.forEach((t,i)=>{
+            favDiv.appendChild(generateDKGPanel(convertNameToId(t), 1.0, true, false));
+        })  
+    }
     // driverTable.forEach((t,i)=>{
     //     favDiv.appendChild(generateDKGPanel(t));
     // })
@@ -247,10 +253,15 @@ function generateProfile(){
     useDiv.className = "favDiv";
     output.appendChild(useDiv);
 
-    savedata.Profile.most_used_drivers_current_tour.forEach((t,i)=>{
-        useDiv.appendChild(generateDKGPanel(convertNameToId(t), 1.0, true, false));
-    })
-
+    if(savedata.Profile.hasOwnProperty("most_used_drivers_current_tour_ids")){
+        savedata.Profile.most_used_drivers_current_tour_ids.forEach((t,i)=>{
+            useDiv.appendChild(generateDKGPanel(t, 1.0, true, false));
+        })
+    } else {
+      savedata.Profile.most_used_drivers_current_tour.forEach((t,i)=>{
+            useDiv.appendChild(generateDKGPanel(convertNameToId(t), 1.0, true, false));
+        })  
+    }
     output.appendChild(generateSectionBar(`Records`));
 
     let recordsDiv = document.createElement('div')
@@ -718,6 +729,44 @@ function generateProfile(){
         level7Div.className = "quickStartBadgeDiv";
     }
 
+    output.appendChild(generateSectionBar(`Missing Top Shelves`));
+
+    let missingDiv = document.createElement('div')
+    missingDiv.className = "missingDiv";
+    output.appendChild(missingDiv);
+
+    //debug all courses
+    // Object.values(coursenames).forEach((t,i) => {
+    //     missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+    // })
+
+    let driversTxt = document.createElement('p');
+    driversTxt.className = "subheaderTxt";
+    driversTxt.innerHTML = "Drivers";
+    missingDiv.appendChild(driversTxt);
+
+    statsJSON.missing_courses_d.forEach((t,i) => {
+        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+    })
+
+    let kartsTxt = document.createElement('p');
+    kartsTxt.className = "subheaderTxt";
+    kartsTxt.innerHTML = "Karts";
+    missingDiv.appendChild(kartsTxt);
+
+    statsJSON.missing_courses_k.forEach((t,i) => {
+        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+    })
+
+    let glidersTxt = document.createElement('p');
+    glidersTxt.className = "subheaderTxt";
+    glidersTxt.innerHTML = "Gliders";
+    missingDiv.appendChild(glidersTxt);
+
+    statsJSON.missing_courses_g.forEach((t,i) => {
+        missingDiv.appendChild(generateCoursePanel(courseReverse[t], 1.0, null))
+    })
+
     output.appendChild(generateSectionBar(`Account Worth`));
 
     let coinWorthImg = document.createElement('img');
@@ -743,7 +792,6 @@ function generateProfile(){
     output.appendChild(RWrecordsDiv);
 
     RWrecordsDiv.appendChild(generateRecord("Account Ruby Worth", statsJSON.total_ruby_worth.toLocaleString()))
-    
 
     output.appendChild(generateSectionBar(`Final Word`));
 

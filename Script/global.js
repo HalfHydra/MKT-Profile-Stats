@@ -1,5 +1,5 @@
 var isMobile = false;
-let version = "1.3.4";
+let version = "1.3.5";
 
 var currentCup = 0;
 var isDataEntered = false;
@@ -669,4 +669,43 @@ function generateDKGPanelSpecial(itemId, points, level, scale, isFav, hideUI){
     }
 
     return dkgPanel;
+}
+
+function generateCoursePanel(course, scale, txtColor){
+
+    let courseName = coursenames[course];
+
+    course = course.replace('Classic_','');
+    course = course.replace('New_','');
+    course = course.replace('Remix_','');
+
+    let coursePanel = document.createElement('div');
+    coursePanel.className = 'coursePanel';
+    if(scale != 1.0){
+        coursePanel.style.width = `${300 * scale}px`;
+        coursePanel.style.height = `${130 * scale}px`;
+    }
+
+    let courseImg = document.createElement('img');
+    courseImg.src = `https://halfhydra.github.io/MarioKartTourValues/Images/CourseIcons/${course}_sub.png`;
+    courseImg.className = 'courseImg';
+    if(scale != 1.0){
+        courseImg.style.width = `${300 * scale}px`;
+        courseImg.style.height = `${130 * scale}px`;
+    }
+    coursePanel.appendChild(courseImg);
+
+    let courseTxt = document.createElement('p');
+    courseTxt.innerHTML = `${courseName}`;
+    courseTxt.className = 'courseTxt';
+    if(scale != 1.0){
+        courseTxt.style.width = `${300 * scale}px`;
+        courseTxt.style.height = `${30 * scale}px`;
+    }
+    if(txtColor != null){
+        courseTxt.style.color = txtColor;
+    }
+    coursePanel.appendChild(courseTxt);
+
+    return coursePanel;
 }
