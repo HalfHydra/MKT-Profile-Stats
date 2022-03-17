@@ -14,7 +14,7 @@ var usercoursedata = {
     Courses: {}
 }
 
-let seasonKey = "";
+let seasonKey = "Season74";
 
 let valuesJSON = {};
 let saveJSON = {};
@@ -31,12 +31,12 @@ let badgesInOrder = [];
 let badgesInCountOrder = [];
 let badgesInSortOrder = [];
 
-let miiSuitIds = [177,191,190,196,194,198,200,222,221,220,197,199,213,215,217,218,223,224,225,227,229,230,232,233];
-
 let coinWorth = { "DKG": { "Drivers": { "HighEnd": 12000, "Super": 3000, "Common": 800 }, "Karts": { "HighEnd": 10000, "Super": 2000, "Common": 500 }, "Gliders": { "HighEnd": 10000, "Super": 2000, "Common": 500 } }, "Items": { "90001": 1, "90005": 50, "90006": 100, "90007": 1000, "90305": 800, "90306": 3000, "90307": 12000, "90309": 500, "90310": 2000, "90311": 10000, "90313": 500, "90314": 2000, "90315": 10000, "90404": 100, "90408": 100, "90412": 100, "90500": 800, "90605": 2000, "90606": 5000, "90607": 20000, "90609": 2000, "90610": 5000, "90611": 20000, "90613": 2000, "90614": 5000, "90615": 20000 } };
 
-function calcValuesStats() {
-    inputData();
+let courseReverse = {};
+
+function calcValuesStats(data) {
+    inputData(data);
     convertToUsable();
     convertCourseNames();
     createCourseReverseDict();
@@ -47,9 +47,9 @@ function calcValuesStats() {
     buildStats();
 }
 
-function inputData(){
+function inputData(data){
     new_values = JSON.parse(JSON.stringify(values));
-    saveJSON = JSON.parse(JSON.stringify(savedata));
+    saveJSON = JSON.parse(JSON.stringify(data));
 }
 
 function convertToUsable() {
@@ -396,7 +396,6 @@ function initializeProperties(){
     statsJSON.most_neglected_gliders = [];
     statsJSON.used_cap_ticket_nums = [0,0,0,0,0,0,0,0,0];
     statsJSON.level_7_dkg = [];
-    statsJSON.level_8_dkg = [];
     statsJSON.single_capped_dkg = [];
     statsJSON.double_capped_dkg = [];
     statsJSON.triple_capped_dkg = [];
@@ -420,7 +419,6 @@ function initializeProperties(){
     statsJSON.courseRatingArray = [];
     statsJSON.total_coin_worth = 0;
     statsJSON.total_ruby_worth = 0;
-    statsJSON.miiSuitsCollected = 0;
 }
 
 function buildStats(){
@@ -437,7 +435,6 @@ function buildStats(){
     createUserCourseData();
     getSeasonKey();
     //Calc
-    calcMiiSuitBonus();
     totalDKGCopies();
     driverBasePoints();
     kartBasePoints();
@@ -450,7 +447,6 @@ function buildStats(){
     mostNeglectedKarts(5);
     mostNeglectedGliders(5);
     getLevel7DKG();
-    getLevel8DKG();
     getSingleCappedDKG();
     getDoubleCappedDKG();
     getTripleCappedDKG();
@@ -466,9 +462,9 @@ function buildStats(){
     teamRallyBadges();
     getMostObtainedBadges(10);
     calcMaxCourses(27);
-    mostItemUsesCourses();
+    //mostItemUsesCourses();
     missingCourseCoverage();
-    calcCourseRatingArray();
+    //calcCourseRatingArray();
     simulateCoinWorth();
     simulateRubiesSpent();
     //console.log(statsJSON);
@@ -765,7 +761,6 @@ function driverBasePoints(){
             break;
         }
     });
-    statsJSON.total_base_points_d += calcMiiSuitBonus();
 }
 
 function kartBasePoints(){
@@ -868,15 +863,6 @@ function getLevel7DKG(){
     });
 }
 
-function getLevel8DKG(){
-    allItemsSort.forEach((t,i)=>{
-        let level = t.level;
-        if(level == 8){
-            statsJSON.level_8_dkg.push(t.id);
-        }
-    });
-}
-
 function getSingleCappedDKG(){
     allItemsSort.forEach((t,i)=>{
         let pointCapLevel = t.pointCapLevel;
@@ -910,7 +896,7 @@ function getMaxedDKG(){
         let level = t.level;
         let pointCapLevel = t.pointCapLevel;
         let basePoints = t.basepoints;
-        if(level == 8 && pointCapLevel == 3 && maxedPointsCounts.includes(basePoints)){
+        if(level == 7 && pointCapLevel == 3 && maxedPointsCounts.includes(basePoints)){
             statsJSON.completely_maxed_dkg.push(t.id);
         }
     });
@@ -1401,6 +1387,12 @@ function convertNameToId(input) {
     return itemId;
 }
 
+function createCourseReverseDict(){
+    Object.keys(coursenames).forEach((t,i)=>{
+        courseReverse[coursenames[t]] = t;
+    })
+}
+
 function generateLevelsCSV(){
     let CSV = "D/K/G, Points Cap, Level, Level Progress, Received\n";
     Object.keys(allItemsSort).forEach((t,i)=>{
@@ -1454,18 +1446,4 @@ function getItemType(id, outputType){
             break;
     }
     return type;
-}
-
-function calcMiiSuitBonus(){
-    let miiSuitAmount = 0;
-    allItemsIds.forEach(id =>{
-        if(miiSuitIds.includes(id)){
-            miiSuitAmount++;
-        }
-    })
-    return  (miiSuitAmount > 10) ? 100 : miiSuitAmount * 10;
-}
-
-function isMiiSuit(id){
-    return (miiSuitIds.includes(id)) ? true : false;
 }

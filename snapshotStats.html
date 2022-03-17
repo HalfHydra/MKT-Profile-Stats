@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Account Snapshot</title>
+      <meta name="viewport" content="width=750px, initial-scale=1">
+         <link rel="stylesheet" href="./Style/reset.css">
+   		<link rel="stylesheet" href="./Style/generic.css">
+         <link rel="stylesheet" href="./Style/header.css">
+         <link rel="stylesheet" href="./Style/profile.css">
+         <link rel="stylesheet" media="screen and (min-device-width: 1024px)" href="./Style/lists.css">
+         <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="./Style/lists_mobile.css">
+      <style>
+         @font-face {font-family: tour;src: url('./Font/nintendoP_NTLG-NR-DB_003.ttf');}
+      </style>
+      <link rel="preload" href="./Images/UI/Loading.png" as="image"> 
+      <link rel="preload" href="./Images/UI/Profile/Logo.png" as="image">
+      <link rel="preload" href="./Images/UI/Profile/NameCard.png" as="image">
+      <link rel="preload" href="./Images/UI/Profile/Header.png" as="image">
+   </head>
+   <body class="main" style="overflow-y: scroll;height: 100%;background-image: url('./Images/UI/Background/gradient.png');background-size: contain;background-attachment: fixed;" id="bigbody">
+      <img id="loadingimg" src="./Images/UI/Loading.png" style="width:96px;height:96px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 1000;">
+      <div id="content" style="margin: 0px auto;width: auto;max-width: 1200px;height:auto;min-height: calc(100vh - 100px);/*height: calc(100vh - 100px);overflow-y: auto;overflow-x: auto;*/right: 0;left: 0;/*background-image: linear-gradient(to bottom, rgba(168, 207, 255, 0.9) 0%, rgba(3, 65, 202, 0.9) 100%), url('./Images/UI/fixedmktbg.png'); background-size: 394px auto;border: 5px solid #b5ceff;*/">
+         <div id="nodata" style="display:none">
+            <p class="landingpagetxt">Your data has not been found! Please re-enter your data on the input page:</p>
+            <button class="nodatabtn" onclick="location.href = 'input.html';">Input Data</button>
+         </div>
+         
+<input type="file" id="file" name="file" multiple /><br />
+
+
+         <div id="stats" style="height: auto;width:750px;margin: 0 auto;">
+         </div>
+         <div id="drivers" style="height: auto;margin-top:10px;margin-bottom: 64px;display:none;">
+         </div>
+         <div id="karts" style="height: auto;margin-top:10px;margin-bottom: 64px;display:none;">
+         </div>
+         <div id="gliders" style="height: auto;margin-top:10px;margin-bottom: 64px;display:none;">
+         </div>
+         <div id="badges" style="height: auto;margin-top:10px;margin-bottom: 64px;text-align: center;display:none;">
+         </div>
+         <div id="items" style="margin:0 auto;background-color: rgba(0,0,0,0.3);margin-top:10px;margin-bottom: 64px;display: none;">
+         </div>
+      </div>
+
+      <script src="./Script/global.js"></script>
+      <script src="./Script/profile.js"></script>
+      <script src="./Script/driverlist.js"></script>
+      <script src="./Script/kartlist.js"></script>
+      <script src="./Script/gliderlist.js"></script>
+      <script src="./Script/badgelist.js"></script>
+      <script src="./Script/itemlist.js"></script>
+      <script src="./Script/massStats.js"></script>
+      <script src="./Script/jszip.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+      <script>
+         function zoomOutMobile() {
+            var viewport = document.querySelector('meta[name="viewport"]');
+            if ( viewport ) {
+               viewport.content = "initial-scale=0.1";
+               viewport.content = "width=760";
+            }
+         }
+         zoomOutMobile();
+
+         function readTextFile(file, unit)
+         {
+             var rawFile = new XMLHttpRequest();
+             rawFile.open("GET", file, false);
+             rawFile.onreadystatechange = function ()
+             {
+                 if(rawFile.readyState === 4)
+                 {
+                     if(rawFile.status === 200 || rawFile.status == 0)
+                     {
+                         var allText = rawFile.responseText;
+                         switch(unit){
+                         	case 1:
+                         	values = JSON.parse(allText);
+                         	break;
+                         	case 2:
+                         	coursenames = JSON.parse(allText);
+                         	break;
+                           case 3:
+                           courseimages = JSON.parse(allText);
+                           break;
+                           case 4:
+                           seasonJSON = JSON.parse(allText);
+                           break;
+                         }
+                     }
+                 }
+             }
+             rawFile.send(null);
+         }
+
+let totalSnaps = 0;
+let accsnaps = [];
+let usersnaps = {};   
+let ownedItems = {};
+let tutorial_drivers = {}
+let most_favorited_drivers = {}
+let most_triple_capped_drivers = {}
+
+readTextFile(`https://halfhydra.github.io/MarioKartTourValues/Data/DataJSON/${seasonKey}.json`, 1);
+readTextFile("https://halfhydra.github.io/MarioKartTourValues/Data/course_names.json", 2);      
+readTextFile(`https://halfhydra.github.io/MarioKartTourValues/Data/SeasonCup/${seasonKey}.json`, 4);
+
+$("#file").on("change", function(evt) {
+    // Closure to capture the file information.
+    function handleFile(f) {
+        JSZip.loadAsync(f)
+        .then(function(zip) {
+            zip.forEach(function (relativePath, zipEntry) {
+               console.log(relativePath)
+               zip.file(relativePath).async("text").then(function(data){
+                  let parsed = JSON.parse(data);
+                  let playerId = parsed.Profile.playerId;
+                  accsnaps.push(parsed);
+                  if(usersnaps.hasOwnProperty(playerId)){
+                     if(usersnaps[playerId].Profile.snapshotTakenAtEpoch < parsed.Profile.snapshotTakenAtEpoch){
+                        usersnaps[playerId] = parsed;
+                     }
+                  } else {
+                     usersnaps[playerId] = parsed;
+                  }
+               })
+            });
+        }, function (e) {
+            console.log(e);
+        });
+    }
+
+    var files = evt.target.files;
+    for (var i = 0; i < files.length; i++) {
+        handleFile(files[i]);
+    }
+});
+
+function calcSnaps(type){
+   let CSV = "";
+   switch(type){
+      case 0:
+         accsnaps.forEach(data => {
+            calcValuesStats(data);
+            let row = `${data.Profile.snapshotTakenAtEpoch}, ${statsJSON.first_play_time}, ${statsJSON.total}`;
+            console.log(row);
+         })
+         break;
+      case 1:
+         Object.keys(usersnaps).forEach(key => {
+            let data = usersnaps[key];
+            calcValuesStats(data);
+            let row = `${data.Profile.snapshotTakenAtEpoch}, ${statsJSON.first_play_time}, ${statsJSON.total_dkg_count}, ${data.Profile.total_rank_xp}, ${statsJSON.total_coin_worth}\n`;
+            CSV += row;
+
+            data.Profile.favorite_drivers_ids.forEach(item => {
+               if(!most_favorited_drivers.hasOwnProperty(item)){
+                  most_favorited_drivers[item] = 0;
+               }
+               most_favorited_drivers[item] += 1;
+            })
+
+            statsJSON.tutorialDrivers.forEach(item =>{
+               if(!tutorial_drivers.hasOwnProperty(item)){
+                  tutorial_drivers[item] = 0;
+               }
+               tutorial_drivers[item] += 1;
+            })
+
+            allItems.forEach(item => {
+               if(!ownedItems.hasOwnProperty(item.id)){
+                  ownedItems[item.id] = 0;
+               }
+               ownedItems[item.id] += 1;
+
+               if(item.pointCapLevel == 3){
+                  if(!most_triple_capped_drivers.hasOwnProperty(item.id)){
+                     most_triple_capped_drivers[item.id] = 0;
+               }
+               most_triple_capped_drivers[item.id] += 1;
+               }
+            })
+         })
+         printStats();
+         break;
+   }
+   return CSV;
+}
+
+function printStats(){
+   totalSnaps = Object.keys(usersnaps).length;
+   let FavoriteCSV = "";
+   Object.keys(most_favorited_drivers).forEach(key => {
+      let value = most_favorited_drivers[key];
+      FavoriteCSV += `${new_values[key].nameEng}, ${value}, ${((parseInt(value)/totalSnaps) * 100).toFixed(2)}%\n`;
+   })
+   let TutorialCSV = "";
+   Object.keys(tutorial_drivers).forEach(key => {
+      let value = tutorial_drivers[key];
+      TutorialCSV += `${new_values[key].nameEng}, ${value}, ${((parseInt(value)/totalSnaps) * 100).toFixed(2)}%\n`;
+   })
+   let OwnedCSV = "";
+   Object.keys(ownedItems).forEach(key => {
+      let value = ownedItems[key];
+      OwnedCSV += `${new_values[key].nameEng}, ${value}, ${((parseInt(value)/totalSnaps) * 100).toFixed(2)}%\n`;
+   })
+   let TripleCapCSV = "";
+   Object.keys(most_triple_capped_drivers).forEach(key => {
+      let value = most_triple_capped_drivers[key];
+      TripleCapCSV += `${new_values[key].nameEng}, ${value}, ${((parseInt(value)/totalSnaps) * 100).toFixed(2)}%\n`;
+   })
+   console.log(FavoriteCSV);
+   console.log(TutorialCSV);
+   console.log(OwnedCSV);
+   console.log(TripleCapCSV);
+}
+      // if(localStorage.getItem("MKTS_Data") != null){
+      //   savedata = JSON.parse(localStorage.getItem("MKTS_Data"));
+      //   getSeasonKey();
+      //    readTextFile(`https://halfhydra.github.io/MarioKartTourValues/Data/DataJSON/${seasonKey}.json`, 1);
+      //    generateArrays();
+      //    readTextFile("https://halfhydra.github.io/MarioKartTourValues/Data/course_names.json", 2);
+      //    readTextFile("https://halfhydra.github.io/MarioKartTourValues/Data/course_image.json", 3);
+      //   calcValuesStats();
+      //   readTextFile(`https://halfhydra.github.io/MarioKartTourValues/Data/SeasonCup/${seasonKey}.json`, 4);
+      //   generateProfile();
+      // } else {
+      //    document.getElementById('nodata').style.display = "block";
+      // }
+
+      window.onbeforeunload = function(){
+         document.getElementById('loadingimg').style.display = "block";
+      }
+      window.onload = function() {
+         document.getElementById('loadingimg').style.display = "none";
+      }
+      </script>
+   </body>
+</html>
